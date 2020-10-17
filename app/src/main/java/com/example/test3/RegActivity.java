@@ -55,11 +55,17 @@ public class RegActivity extends AppCompatActivity {
                     et_password1.setText("");
                     et_password2.setText("");
                 }else {
-                    Toast.makeText(RegActivity.this,"注册成功，正在跳转到登陆页面......",Toast.LENGTH_LONG).show();
+                    Toast.makeText(RegActivity.this,"注册成功，正在跳转到确认页面......",Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(RegActivity.this, MainActivity.class);
                     Bundle bundle = new Bundle();
+                    //System.out.println("userName = "+userName);
                     bundle.putString("userName",userName);
-                    intent.putExtra("userName", bundle);
+                    bundle.putString("password",password1);
+                    bundle.putString("name",name);
+                    bundle.putString("age",age);
+                    bundle.putString("birthday",birthday);
+                    bundle.putString("phoneNumber",phoneNumber);
+                    intent.putExtras(bundle);
                     startActivity(intent);
                 }
             }
