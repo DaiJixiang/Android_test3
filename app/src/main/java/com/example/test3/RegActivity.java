@@ -56,7 +56,7 @@ public class RegActivity extends AppCompatActivity {
                     et_password2.setText("");
                 }else {
                     Toast.makeText(RegActivity.this,"注册成功，正在跳转到确认页面......",Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent(RegActivity.this, MainActivity.class);
+                    Intent intent = new Intent(RegActivity.this, InforActivity.class);
                     Bundle bundle = new Bundle();
                     //System.out.println("userName = "+userName);
                     bundle.putString("userName",userName);
