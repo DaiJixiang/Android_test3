@@ -15,6 +15,8 @@ public class WelActivity extends AppCompatActivity {
         setContentView(R.layout.activity_wel);
         wel_name=(TextView)findViewById(R.id.wel_name);
         Intent intent=getIntent();
-        Bundle bundle=intent.getBundleExtra("login");
+        Bundle bundle=intent.getExtras();
+        String userName = bundle.getString("userName");
+        wel_name.setText(userName);
     }
 }

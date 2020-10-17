@@ -44,7 +44,7 @@ public class InforActivity extends AppCompatActivity {
             birthday = bundle.getString("birthday");
             phoneNumber = bundle.getString("phoneNumber");
 
-            textView_name.setText(name);
+            textView_name.setText(userName);
             textView_age.setText(age);
             textView_birth.setText(birthday);
             textView_tel.setText(phoneNumber);

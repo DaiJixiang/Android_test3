@@ -13,9 +13,9 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-        String sql = "create table userInfo(\n_id integer primary key autoincrement,\nuserName " +
-                "varchar,\npassword varchar,\nname varchar,\nage varchar,\nbirthday varchar," +
-                "\nphoneNumber varchar\n)";
+        String sql = "create table userInfo(_id integer primary key autoincrement,userName " +
+                "varchar,password varchar,name varchar,age varchar,birthday varchar," +
+                "phoneNumber varchar)";
         Log.i("TAG:","创建userInfo数据库表！");
         db.execSQL(sql);
     }
