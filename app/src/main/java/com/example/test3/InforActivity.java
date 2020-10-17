@@ -2,13 +2,20 @@ package com.example.test3;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 public class InforActivity extends AppCompatActivity {
+
+    DBHelper dbHelper;
+    SQLiteDatabase sqLiteDatabase;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,8 +76,35 @@ public class InforActivity extends AppCompatActivity {
             infor_yes.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    dbHelper = new DBHelper(InforActivity.this);
+                    sqLiteDatabase = dbHelper.getWritableDatabase();
+
+                    ContentValues values = new ContentValues();
+                    values.put("userName",finalUserName);
+                    values.put("password",finalPassword);
+                    values.put("name",finalName);
+                    values.put("age",finalAge);
+                    values.put("birthday",finalBirthday);
+                    values.put("phoneNumber",finalPhoneNumber);
+                    sqLiteDatabase.insert("userInfo",null,values);
+
+                    Cursor cursor = sqLiteDatabase.query("userInfo", new String[]{"userName",
+                            "password", "name", "age", "birthday", "phoneNumber"}, null, null,
+                            null, null, null);
+                    int count = 0;
+                    while (cursor.moveToNext()) {
+                        System.out.println(++count);
+                        System.out.println("userName="+cursor.getString(2));
+                        System.out.println("password="+cursor.getString(3));
+                        System.out.println();
+                    }
+                    cursor.close();
+
                     Intent intent2 = new Intent(InforActivity.this,MainActivity.class);
-                    startActivity(intent);
+                    Bundle bundle1 = new Bundle();
+                    bundle1.putString("userName",finalUserName);
+                    intent2.putExtras(bundle1);
+                    startActivity(intent2);
                 }
             });
 
