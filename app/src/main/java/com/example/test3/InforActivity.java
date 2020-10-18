@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class InforActivity extends AppCompatActivity {
 
@@ -62,14 +63,15 @@ public class InforActivity extends AppCompatActivity {
                 public void onClick(View v) {
                 Intent intent1 = new Intent(InforActivity.this,RegActivity.class);
                 Bundle bundle1 = new Bundle();
-                bundle.putString("userName", finalUserName);
-                bundle.putString("password", finalPassword);
-                bundle.putString("name", finalName);
-                bundle.putString("age", finalAge);
-                bundle.putString("birth", finalBirthday);
-                bundle.putString("phoneNumber", finalPhoneNumber);
-                intent.putExtras(bundle);
-                startActivity(intent);
+                bundle1.putString("userName", finalUserName);
+                bundle1.putString("password", finalPassword);
+                bundle1.putString("name", finalName);
+                bundle1.putString("age", finalAge);
+                bundle1.putString("birth", finalBirthday);
+                bundle1.putString("phoneNumber", finalPhoneNumber);
+                intent1.putExtras(bundle1);
+                startActivity(intent1);
+                finish();
                 }
             });
             Button infor_yes = this.findViewById(R.id.infor_yes);
@@ -79,32 +81,44 @@ public class InforActivity extends AppCompatActivity {
                     dbHelper = new DBHelper(InforActivity.this);
                     sqLiteDatabase = dbHelper.getWritableDatabase();
 
-                    ContentValues values = new ContentValues();
-                    values.put("userName",finalUserName);
-                    values.put("password",finalPassword);
-                    values.put("name",finalName);
-                    values.put("age",finalAge);
-                    values.put("birthday",finalBirthday);
-                    values.put("phoneNumber",finalPhoneNumber);
-                    sqLiteDatabase.insert("userInfo",null,values);
+                    //添加是否已经存在的判断，如果已经存在，就不继续添加
+                    Cursor cursor1 = sqLiteDatabase.rawQuery("select * from userInfo where " +
+                            "userName='" + finalUserName + "'", null);
+                    if (cursor1 != null && cursor1.getCount() > 0) {
+                        Toast.makeText(InforActivity.this,"用户已存在，请直接登录！",Toast.LENGTH_LONG).show();
+                        Intent intent2 = new Intent(InforActivity.this, MainActivity.class);
+                        Bundle bundle2 = new Bundle();
+                        bundle.putString("userName",finalUserName);
+                        intent2.putExtras(bundle2);
+                        startActivity(intent2);
+                        finish();
+                    }else {
+                        ContentValues values = new ContentValues();
+                        values.put("userName", finalUserName);
+                        values.put("password", finalPassword);
+                        values.put("name", finalName);
+                        values.put("age", finalAge);
+                        values.put("birthday", finalBirthday);
+                        values.put("phoneNumber", finalPhoneNumber);
+                        sqLiteDatabase.insert("userInfo", null, values);
+                        Cursor cursor = sqLiteDatabase.query("userInfo", new String[]{"userName", "password", "name", "age", "birthday", "phoneNumber"}, null, null, null, null, null);
+                        int count = 0;
+                        while (cursor.moveToNext()) {
+                            System.out.println(++count);
+                            System.out.println("userName=" + cursor.getString(1));
+                            System.out.println("password=" + cursor.getString(2));
+                            System.out.println();
+                        }
+                        cursor.close();
 
-                    Cursor cursor = sqLiteDatabase.query("userInfo", new String[]{"userName",
-                            "password", "name", "age", "birthday", "phoneNumber"}, null, null,
-                            null, null, null);
-                    int count = 0;
-                    while (cursor.moveToNext()) {
-                        System.out.println(++count);
-                        System.out.println("userName="+cursor.getString(2));
-                        System.out.println("password="+cursor.getString(3));
-                        System.out.println();
+                        Intent intent2 = new Intent(InforActivity.this, MainActivity.class);
+                        Bundle bundle1 = new Bundle();
+                        bundle1.putString("userName", finalUserName);
+                        intent2.putExtras(bundle1);
+                        startActivity(intent2);
+                        finish();
                     }
-                    cursor.close();
-
-                    Intent intent2 = new Intent(InforActivity.this,MainActivity.class);
-                    Bundle bundle1 = new Bundle();
-                    bundle1.putString("userName",finalUserName);
-                    intent2.putExtras(bundle1);
-                    startActivity(intent2);
+                    cursor1.close();
                 }
             });
 

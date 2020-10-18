@@ -51,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+        //登录
         Button bt_login = this.findViewById(R.id.bt_main_login);
         bt_login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
                     dbHelper = new DBHelper(MainActivity.this);
                     sqLiteDatabase = dbHelper.getReadableDatabase();
                     Cursor cursor =
-                            sqLiteDatabase.rawQuery("select * from userInfo where userName=" + userName + " and password=" + password, null);
+                            sqLiteDatabase.rawQuery("select * from userInfo where userName='" + userName + "' and password='" + password+"'", null);
                     if (cursor != null && cursor.getCount() > 0) {
                         Intent intent1 = new Intent(MainActivity.this, WelActivity.class);
                         Bundle bundle1 = new Bundle();
@@ -83,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+        //忘记密码
         TextView tv_forget_password = this.findViewById(R.id.tv_forget_password);
         tv_forget_password.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,10 +97,13 @@ public class MainActivity extends AppCompatActivity {
                     dbHelper = new DBHelper(MainActivity.this);
                     sqLiteDatabase = dbHelper.getReadableDatabase();
                     Cursor cursor = sqLiteDatabase.rawQuery("select * from userInfo where " +
-                            "userName=" + userName, null);
+                            "userName='" + userName+"'", null);
                     if (cursor != null && cursor.getCount() > 0) {
-                        String password = cursor.getColumnName(3);
+                        cursor.moveToFirst();
+                        String password = cursor.getString(2);
                         et_password.setText(password);
+                    }else {
+                        Toast.makeText(MainActivity.this, "用户不存在，请先注册！", Toast.LENGTH_LONG).show();
                     }
                     cursor.close();
                 }

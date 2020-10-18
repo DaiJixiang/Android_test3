@@ -17,6 +17,6 @@ public class WelActivity extends AppCompatActivity {
         Intent intent=getIntent();
         Bundle bundle=intent.getExtras();
         String userName = bundle.getString("userName");
-        wel_name.setText(userName);
+        wel_name.setText(userName+",欢迎您！");
     }
 }
