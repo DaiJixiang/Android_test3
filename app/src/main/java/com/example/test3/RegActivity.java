@@ -16,6 +16,23 @@ public class RegActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reg);
 
+        Bundle bundle1 = getIntent().getExtras();
+        if (bundle1!=null){
+            EditText et_userNamea = this.findViewById(R.id.et_reg_userName);
+            EditText et_password1a = this.findViewById(R.id.et_reg_password1);
+            EditText et_password2a = this.findViewById(R.id.et_reg_password2);
+            EditText et_namea = this.findViewById(R.id.et_reg_name);
+            EditText et_agea = this.findViewById(R.id.et_reg_age);
+            EditText et_birthdaya = this.findViewById(R.id.et_reg_birthday);
+            EditText et_phoneNumbera = this.findViewById(R.id.et_reg_phoneNumber);
+            et_userNamea.setText(bundle1.getString("userName"));
+            et_password1a.setText(bundle1.getString("password"));
+            et_password2a.setText(bundle1.getString("password"));
+            et_namea.setText(bundle1.getString("name"));
+            et_agea.setText(bundle1.getString("age"));
+            et_birthdaya.setText(bundle1.getString("birth"));
+            et_phoneNumbera.setText(bundle1.getString("phoneNumber"));
+        }
 
         Button bt_commit = this.findViewById(R.id.bt_commit);
 
